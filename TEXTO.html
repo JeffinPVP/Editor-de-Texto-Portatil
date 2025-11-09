@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Editor de Texto Portátil</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: linear-gradient(45deg, cyan, yellow);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 80%;
+      max-width: 700px;
+    }
+    textarea {
+      width: 100%;
+      height: 200px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      font-size: 16px;
+      resize: none;
+    }
+    button, input[type="file"] {
+      margin-top: 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background-color: dodgerblue;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+    button:hover, input[type="file"]:hover {
+      background-color: deepskyblue;
+    }
+    .info {
+      margin-top: 10px;
+      font-size: 14px;
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Editor de Texto Portátil</h1>
+    <textarea id="texto" placeholder="Digite ou carregue um texto..."></textarea><br>
+    
+    <input type="file" id="arquivoEntrada" accept=".txt"><br>
+    <button onclick="salvarTexto()">Salvar como arquivo</button>
+    <div class="info" id="status"></div>
+  </div>
+
+  <script>
+    const textarea = document.getElementById('texto');
+    const statusEl = document.getElementById('status');
+
+    // Carregar texto salvo localmente (arquivo recente)
+    window.onload = () => {
+      const textoSalvo = localStorage.getItem('textoRecente');
+      if (textoSalvo) {
+        textarea.value = textoSalvo;
+        statusEl.textContent = "🕓 Último texto carregado automaticamente.";
+      }
+    };
+
+    // Atualiza o texto salvo a cada digitação
+    textarea.addEventListener('input', () => {
+      localStorage.setItem('textoRecente', textarea.value);
+      statusEl.textContent = "💾 Texto salvo localmente (recente).";
+    });
+
+    // Ler o arquivo escolhido
+    document.getElementById('arquivoEntrada').addEventListener('change', (e) => {
+      const arquivo = e.target.files[0];
+      if (!arquivo) return;
+      const leitor = new FileReader();
+      leitor.onload = (ev) => {
+        textarea.value = ev.target.result;
+        localStorage.setItem('textoRecente', textarea.value);
+        statusEl.textContent = `📂 Arquivo "${arquivo.name}" carregado.`;
+      };
+      leitor.readAsText(arquivo);
+    });
+
+    // Baixar o texto editado
+    function salvarTexto() {
+      const texto = textarea.value;
+      const blob = new Blob([texto], { type: 'text/plain' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'meu_texto.txt';
+      link.click();
+      statusEl.textContent = "⬇️ Arquivo baixado com sucesso.";
+    }
+  </script>
+</body>
+</html>

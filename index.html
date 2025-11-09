@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Tela de Login</title>
+    <style>
+      body{
+        font-family: Arial;
+        background-image: linear-gradient(45deg, cyan, yellow);
+      }
+    div{
+      background-color: rgba(0,0,0,0.9);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      padding: 80px;
+      border-radius: 15px;
+      color: white;
+    }
+    input{
+      padding: 10px;
+      outline: none;
+      font-size: 15px;
+      width: 92%;
+      padding: 10px;
+    }
+    button{
+      background-color: dodgerblue;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      border-radius: 10px;
+      color:white;
+      font-size: 15px;
+      margin-top:10px;
+    }
+    button:hover{
+      background-color: deepskyblue;
+      cursor: pointer;
+    }
+    h1{
+      color: white;
+    }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h1>Entrar</h1>  
+      <input type="password" id="IDSENHA" placeholder="Digite a senha" />
+      <button onclick="verificarSenha()">Entrar</button>
+      <p class="msg" id="msg"></p>
+    
+      <script>
+        const SENHA_CORRETA = 'JeffinPVP'; // Altere aqui
+        const URL_SITE = 'https://seusite.com'; // coloque aqui seu endereço
+    
+        function verificarSenha() {
+          const senha = document.getElementById('IDSENHA').value;
+          const msg = document.getElementById('msg');
+    
+          if (senha === SENHA_CORRETA) {
+            msg.style.color = 'green';
+            msg.textContent = 'Acesso liberado!';
+            setTimeout(() => window.location.href = "TEXTO.html", 1000);
+          } else {
+            msg.style.color = 'red';
+            msg.textContent = 'Senha incorreta.';
+          }
+        }
+      </script>
+  </div>  
+</body>
+</html>
